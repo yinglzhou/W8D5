@@ -72,3 +72,23 @@ class Cat {
 //   markov.says.myBind(pavlov, "meow")("Markov");
 
 // =======================================================
+
+
+function curriedSum (numArgs) {
+    let numbers = [];
+    let total = 0;
+    return function _curriedSum(num) {
+        numbers.push(num);
+        if (numbers.length === numArgs) {
+            for (let i =0; i < numbers.length; i++) {
+                total += numbers[i];
+            }
+            return total; 
+        }
+        return _curriedSum
+    }
+}
+
+// const summ = curriedSum(4)
+// console.log(summ(5)(30)(20));
+console.log(curriedSum(3)(5)(30)(20))
