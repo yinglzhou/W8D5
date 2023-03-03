@@ -40,9 +40,8 @@ Function.prototype.myBind = function(context, ...args) {
     // const args = arguments;
     const org = this;
     return function(...callArgs) {
-        // console.log(...args)
-
-        return org.apply(context, args.concat(callArgs))
+        // return org.call(context, ...args, ...callArgs);
+        return org.apply(context, [...args, ...callArgs]);  //arg.concat(callArgs)
     }
 }
 
@@ -91,4 +90,25 @@ function curriedSum (numArgs) {
 
 // const summ = curriedSum(4)
 // console.log(summ(5)(30)(20));
-console.log(curriedSum(3)(5)(30)(20))
+// console.log(curriedSum(3)(5)(30)(20));
+
+
+Function.prototype.curry = function(numArgs) {
+    let numbers = [];
+    const that = this;
+    return function _curriedSum(num) {
+        numbers.push(num);
+        if (numbers.length === numArgs) {
+            return that.curry(numArgs);
+        }
+        return that._curriedSum
+    }
+}
+
+
+
+function sumThree(num1, num2, num3) {
+    return num1 + num2 + num3;
+}
+
+console.log(sumThree.curry(3)(4)(20)(6));
